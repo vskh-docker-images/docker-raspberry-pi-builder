@@ -2,7 +2,7 @@
 
 FROM balenalib/raspberry-pi-debian:latest
 LABEL "maintainer"="Vadym S. Khondar <vadym@khondar.name>"
-LABEL "description"="Rapbian Buster (belenaOS) container with libraspberrypi-dev and build-essential."
+LABEL "description"="Rapbian Bullseye (belenaOS) container with libraspberrypi-dev and build-essential."
 
 RUN apt update && \
     apt upgrade -y && \
