@@ -1,13 +1,14 @@
 # Dockerfile for image to build stuff for Raspberry Pi
 
-FROM balenalib/raspberry-pi-debian:latest
+FROM dtcooper/raspberrypi-os:bookworm
 LABEL "maintainer"="Vadym S. Khondar <vadym@khondar.name>"
-LABEL "description"="Rapbian Bullseye (belenaOS) container with libraspberrypi-dev and build-essential."
+LABEL "description"="Raspberry Pi OS Bookworm container with libraspberrypi-dev and build-essential."
 
-RUN apt update && \
-    apt upgrade -y && \
-    apt install -y build-essential libraspberrypi-dev && \
-    apt clean
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y --no-install-recommends build-essential libraspberrypi-dev && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 ENTRYPOINT [ "/bin/bash" ]
 
