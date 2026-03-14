@@ -1,5 +1,27 @@
 # docker-raspberry-pi-builder
 
-Raspberry Pi OS builder image with updated packages and build-essential.
+Debian-based Raspberry Pi builder image with updated packages, build-essential, and Raspberry Pi tools from the Raspberry Pi archive.
 
-Can be used as builder image in multistage docker build.
+The image starts from the official `debian:bookworm-slim` base and adds the Raspberry Pi apt archive explicitly instead of inheriting an unofficial Raspberry Pi OS image. The container build still keeps package freshness by running `apt-get update` and `apt-get upgrade` during image creation.
+
+Current image scope:
+
+- Target platform: `linux/arm/v7`
+- Base image: Debian Bookworm Slim
+- Raspberry Pi-specific packages: `raspi-utils`
+- Default shell entrypoint: `/bin/bash`
+
+Example multistage build:
+
+```dockerfile
+FROM ghcr.io/<owner>/docker-raspberry-pi-builder:latest AS build
+WORKDIR /src
+COPY . .
+RUN make
+
+FROM debian:bookworm-slim
+COPY --from=build /src/out/my-binary /usr/local/bin/my-binary
+ENTRYPOINT ["/usr/local/bin/my-binary"]
+```
+
+The GitHub Actions workflow builds and publishes the image to GHCR, signs published images with cosign, and runs a pull request smoke test that checks both package installation and the presence of `dtoverlay`.
