@@ -1,13 +1,16 @@
 # Dockerfile for image to build stuff for Raspberry Pi
 
-FROM balenalib/raspberry-pi-debian:latest
+FROM vascoguita/raspios:armhf
 LABEL "maintainer"="Vadym S. Khondar <vadym@khondar.name>"
-LABEL "description"="Rapbian Bullseye (belenaOS) container with libraspberrypi-dev and build-essential."
+LABEL "description"="Raspberry Pi OS container with libdtovl0 and build-essential."
 
-RUN apt update && \
-    apt upgrade -y && \
-    apt install -y build-essential libraspberrypi-dev && \
-    apt clean
+RUN sed -i 's/^update_initramfs=.*/update_initramfs=no/' /etc/initramfs-tools/update-initramfs.conf && \
+    rm -f /etc/kernel/postinst.d/initramfs-tools && \
+    apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y --no-install-recommends build-essential libdtovl0 && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 ENTRYPOINT [ "/bin/bash" ]
 

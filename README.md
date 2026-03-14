@@ -1,7 +1,5 @@
 # docker-raspberry-pi-builder
 
-[![](https://images.microbadger.com/badges/image/vskhimages/docker-raspberry-pi-builder.svg)](https://microbadger.com/images/vskhimages/docker-raspberry-pi-builder "Get your own image badge on microbadger.com")
-
-Raspbian builder image with updated packages and build-essentials.
+Raspberry Pi OS builder image with updated packages and build-essential.
 
 Can be used as builder image in multistage docker build.
